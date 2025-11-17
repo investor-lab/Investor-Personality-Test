@@ -1,42 +1,61 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="canonical" href="https://investorslab.org/" />
-  <meta property="og:url" content="https://investorslab.org/">
+<!-- 기본 SEO / 메타 설정 -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 🔥 SEO Title (언어 선택 시 JS로 일부 변경 가능) -->
-  <title id="dynamicTitle">투자 성향 테스트 - 투자 MBTI로 나의 투자자 유형 분석하기 (무료)</title>
+<!-- Canonical: 중복 페이지 방지 -->
+<link rel="canonical" href="https://investorslab.org/" />
 
-  <!-- 🔥 한국어 SEO Meta Description (동적 변경 대상) -->
-  <meta id="dynamicDesc" name="description"
-        content="투자 성향 테스트로 투자 MBTI·위험 성향·투자 심리를 무료로 분석하세요. 25개의 질문으로 당신의 투자 스타일과 투자자 유형을 정확하게 진단합니다.">
+<!-- 한국어 기본 SEO (동적으로 변경 가능) -->
+<title id="dynamicTitle">투자 성향 테스트 - 투자 MBTI로 나의 투자자 유형 분석하기 (무료)</title>
+<meta id="dynamicDesc" name="description"
+      content="투자 성향 테스트로 투자 MBTI·위험 성향·투자 심리를 무료로 분석하세요. 25개의 질문으로 당신의 투자 스타일과 투자자 유형을 정확하게 진단합니다.">
 
-  <!-- 🌎 English SEO Version (추가 고정 설명) -->
-  <meta name="description"
-        content="Trading Personality MBTI Test: Analyze your investment style, risk tolerance, discipline, greed and trading psychology with 25 questions. Free investor profile test.">
+<!-- 영어권 방문자용 보조 Description (동일한 name 사용 금지) -->
+<meta name="description-en"
+      content="Investor Personality MBTI Test: Identify your trading style, risk tolerance, discipline and trading psychology with 25 detailed questions. Free investor MBTI.">
 
-  <!-- English Keywords -->
-  <meta name="keywords"
-        content="Trading Personality Test, Investor Personality Test, Trading MBTI, Investor MBTI, Risk Tolerance Test, Trader Psychology, Trading Style Quiz">
+<!-- Keywords -->
+<meta name="keywords"
+      content="투자 성향 테스트, 투자 MBTI, investor personality test, trading MBTI, 위험 성향 테스트, 투자 심리, 트레이딩 심리, 투자 성향 분석">
 
-  <!-- English Open Graph for global SEO -->
-  <meta property="og:title" content="Investor Personality Test - Trading MBTI (Free)">
-  <meta property="og:description"
-        content="25-question investor personality test that analyzes risk tolerance, trading discipline, greed tendencies, and loss response. Free trading psychology MBTI.">
+<!-- Open Graph (카톡/디스코드/페북 미리보기) -->
+<meta property="og:title" content="InvestorLab – 투자자 성향 테스트">
+<meta property="og:description"
+      content="25개의 질문으로 투자 성향, 위험 수용도, 손실 반응, 투자 습관 등을 분석하는 무료 투자자 MBTI 테스트.">
+<meta property="og:url" content="https://investorslab.org/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://investorslab.org/og-image.png">
 
-  <!-- hreflang multi-language SEO support -->
-  <link rel="alternate" hreflang="en" href="#">
-  <link rel="alternate" hreflang="ko" href="#">
-  <link rel="alternate" hreflang="x-default" href="#">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="InvestorLab – 투자자 성향 테스트">
+<meta name="twitter:description"
+      content="정확한 투자 성향 분석으로 나의 투자자 유형을 확인하세요.">
+<meta name="twitter:image" content="https://investorslab.org/og-image.png">
 
-  <!-- Hidden English SEO paragraph for Google (users cannot see it) -->
-  <p style="display:none;">
-    This page offers a full Trading Personality MBTI Test with 25 detailed questions
-    analyzing risk tolerance, loss response, discipline level, greed index, and lifestyle
-    compatibility for investors. Discover your investor type, trading style, and
-    psychological tendencies with this free and accurate personality profiler.
-  </p>
+<!-- 언어 / 지역 SEO -->
+<meta http-equiv="content-language" content="ko">
+<link rel="alternate" hreflang="ko" href="https://investorslab.org/">
+<link rel="alternate" hreflang="en" href="https://investorslab.org/en">
+<link rel="alternate" hreflang="x-default" href="https://investorslab.org/">
+
+<!-- Robots -->
+<meta name="robots" content="index, follow">
+
+<!-- 구조화 데이터 (구글 SEO 점수 상승) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "InvestorLab",
+  "url": "https://investorslab.org/",
+  "description": "투자 성향 테스트로 투자 MBTI, 위험 성향, 투자 심리 등을 분석하고 맞춤형 투자자 프로파일을 제공합니다.",
+  "inLanguage": "ko"
+}
+</script>
   <meta name="google-site-verification" content="1fPyW7-slHurWozF0Wbk79ykzBF2Z0yGxW_SvmG35jg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -995,6 +1014,7 @@
 
 </body>
 </html>
+
 
 
 
