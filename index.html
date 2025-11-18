@@ -1009,22 +1009,29 @@ function similarityScore(typeId, s) {
     /* =======================================================
        테스트 종료 → 결과 계산
     ======================================================= */
-    function finishTest(){
-      document.getElementById("quiz").style.display = "none";
+      function finishTest(){
+        document.getElementById("quiz").style.display = "none";
+      
+        const scores = calcScores();
+        lastScores = scores;
+      
+        const typeIds = Object.keys(typesByLang.ko);
+        let ranked = typeIds.map(id => ({
+          id,
+          score: similarityScore(id, scores)
+        }));
+        ranked.sort((a,b)=> b.score - a.score);
+      
+        /* 🔥 단타 불가능 응답 시 SCALPER 유형 아예 제거 */
+        const qDayTradeIndex = 22; // "단타/데이트레이딩 가능" 질문 인덱스
+        if (answers[qDayTradeIndex] <= 2) {
+          ranked = ranked.filter(t => t.id !== "SCALPER");
+        }
+      
+        lastRanked = ranked;
+        renderResult();
+      }
 
-      const scores = calcScores();
-      lastScores = scores;
-
-      const typeIds = Object.keys(typesByLang.ko);
-      let ranked = typeIds.map(id => ({
-        id,
-        score: similarityScore(id, scores)
-      }));
-      ranked.sort((a,b)=> b.score - a.score);
-      lastRanked = ranked;
-
-      renderResult();
-    }
 
     /* =======================================================
        결과 화면 렌더링 (언어 변경 시에도 호출)
@@ -1136,6 +1143,7 @@ function similarityScore(typeId, s) {
 
 </body>
 </html>
+
 
 
 
