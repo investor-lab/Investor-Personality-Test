@@ -847,23 +847,33 @@
     /* =======================================================
        점수 계산
     ======================================================= */
-    function calcScores(){
-      const sections = {RISK:[], LOSS:[], GREED:[], DISCIPLINE:[], TIME:[]};
+function calcScores(){
+  const sections = {RISK:[], LOSS:[], GREED:[], DISCIPLINE:[], TIME:[]};
 
-      questionsCurrent.forEach((q, i)=>{
-        sections[q.section].push(answers[i]);
-      });
+  questionsCurrent.forEach((q, i)=>{
+    sections[q.section].push(answers[i]);
+  });
 
-      const s = key => ((sections[key].reduce((a,b)=>a+b,0)/sections[key].length)-1)/4*100;
+  const s = key => ((sections[key].reduce((a,b)=>a+b,0)/sections[key].length)-1)/4*100;
 
-      return {
-        RISK: s("RISK"),
-        LOSS: s("LOSS"),
-        GREED: s("GREED"),
-        DISCIPLINE: s("DISCIPLINE"),
-        TIME: s("TIME")
-      };
-    }
+  let scores = {
+    RISK: s("RISK"),
+    LOSS: s("LOSS"),
+    GREED: s("GREED"),
+    DISCIPLINE: s("DISCIPLINE"),
+    TIME: s("TIME")
+  };
+
+  /* 🔥 TIME 보정 로직 (단타 불가능 응답 시 TIME 제한) */
+  const qDayTradeIndex = 22; // "단타/데이트레이딩 가능" 질문 인덱스
+  if (answers[qDayTradeIndex] <= 2) {  
+    // → 아니다 or 매우 아니다 선택한 경우
+    scores.TIME = Math.min(scores.TIME, 40);  
+  }
+
+  return scores;
+}
+
 
     /* =======================================================
        유형 유사도 점수 (TOP1~3용)
@@ -1126,6 +1136,7 @@ function similarityScore(typeId, s) {
 
 </body>
 </html>
+
 
 
 
