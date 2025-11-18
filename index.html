@@ -868,24 +868,133 @@
     /* =======================================================
        유형 유사도 점수 (TOP1~3용)
     ======================================================= */
-    function similarityScore(typeId, scores){
-      const {RISK, LOSS, GREED, DISCIPLINE, TIME} = scores;
+/* =======================================================
+   유형 유사도 점수 (TOP1~3용) — 완전 재설계 버전
+   ※ 다른 로직 절대 수정 X 
+======================================================= */
 
-      const t = {
-        HAN_TANG:     RISK*1.2 + GREED*1.1 - DISCIPLINE*0.7,
-        REVENGE:      LOSS*1.3 + GREED*1.0 - DISCIPLINE*0.6,
-        OVERCONF:     RISK*1.1 + LOSS*1.1,
-        BUFFETT:      DISCIPLINE*1.4 - RISK*0.8,
-        RENAISSANCE:  DISCIPLINE*1.2 + TIME*1.0,
-        RUMOR:        GREED*1.3 + RISK*1.0,
-        FEAR:         (100-RISK)*1.3 + (100-GREED)*0.8,
-        SCALPER:      DISCIPLINE*1.0 + TIME*1.2,
-        FOMO:         GREED*1.4 + RISK*1.1,
-        BUSY:         (100-TIME)*1.4 + DISCIPLINE*0.8
-      };
+function similarityScore(typeId, s) {
+  let score = 0;
 
-      return t[typeId];
-    }
+  // 필수 조건 함수
+  function require(cond, weight) {
+    if (cond) score += weight;
+    else score -= weight * 2; // 필수조건 미충족 시 큰 패널티
+  }
+
+  // 범위형 조건 (선택적 가점)
+  function rangePlus(value, min, max, weight) {
+    if (value >= min && value <= max) score += weight;
+  }
+
+  // 단순 가점
+  function add(v) { score += v; }
+
+
+  switch(typeId) {
+
+    /* =============================
+       1) 단타형 (SCALPER)
+    ============================== */
+    case "SCALPER":
+      require(s.TIME >= 60, 30);          // 단타 가능 시간
+      require(s.DISCIPLINE >= 50, 25);    // 규율 필요
+      add(s.RISK * 0.2);
+      add((100 - s.LOSS) * 0.2);
+      break;
+
+
+    /* =============================
+       2) 바쁘다 바빠형 (BUSY)
+    ============================== */
+    case "BUSY":
+      require(s.TIME <= 40, 30);          // 시간 없음(핵심)
+      rangePlus(s.DISCIPLINE, 40, 100, 10);
+      add((100 - s.RISK) * 0.1);
+      break;
+
+
+    /* =============================
+       3) FOMO형
+    ============================== */
+    case "FOMO":
+      require(s.GREED >= 60, 35);
+      add(s.RISK * 0.3);
+      add(s.LOSS * 0.2);
+      break;
+
+
+    /* =============================
+       4) 카더라형 (RUMOR)
+    ============================== */
+    case "RUMOR":
+      require(s.GREED >= 50, 30);
+      require(s.DISCIPLINE <= 50, 25);
+      add(s.RISK * 0.2);
+      break;
+
+
+    /* =============================
+       5) 한탕주의자 (HAN_TANG)
+    ============================== */
+    case "HAN_TANG":
+      require(s.RISK >= 70, 35);
+      require(s.GREED >= 60, 30);
+      add((100 - s.DISCIPLINE) * 0.3);
+      break;
+
+
+    /* =============================
+       6) 복수자형 (REVENGE)
+    ============================== */
+    case "REVENGE":
+      require(s.LOSS >= 60, 35);
+      require(s.GREED >= 50, 25);
+      add((100 - s.DISCIPLINE) * 0.3);
+      break;
+
+
+    /* =============================
+       7) 과도한 확신형 (OVERCONF)
+    ============================== */
+    case "OVERCONF":
+      require(s.RISK >= 50, 25);
+      require(s.LOSS >= 50, 25);
+      add((100 - s.DISCIPLINE) * 0.3);
+      break;
+
+
+    /* =============================
+       8) 워렌버핏형 (BUFFETT)
+    ============================== */
+    case "BUFFETT":
+      require(s.DISCIPLINE >= 60, 35);
+      require(s.RISK <= 40, 35);
+      break;
+
+
+    /* =============================
+       9) 르네상스형 (RENAISSANCE)
+    ============================== */
+    case "RENAISSANCE":
+      require(s.DISCIPLINE >= 55, 30);
+      require(s.TIME >= 50, 25);
+      break;
+
+
+    /* =============================
+       10) 공포형 (FEAR)
+    ============================== */
+    case "FEAR":
+      require(s.RISK <= 40, 35);
+      require(s.GREED <= 40, 25);
+      add(s.LOSS * 0.1);
+      break;
+  }
+
+  return score;
+}
+
 
     /* =======================================================
        테스트 종료 → 결과 계산
@@ -1017,6 +1126,7 @@
 
 </body>
 </html>
+
 
 
 
